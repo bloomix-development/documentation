@@ -1,13 +1,6 @@
 # 📚 Bloomix Documentation
 
-[![Discord](https://img.shields.io/discord/1381511507271090278?label=Support%20Server&logo=discord&color=5865F2)](https://discord.gg/GpthFH5uA9)
-![Forks](https://img.shields.io/github/forks/bloomix-development/documentation?style=flat)
-![Stars](https://img.shields.io/github/stars/bloomix-development/documentation?style=flat)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![Last Commit](https://img.shields.io/github/last-commit/bloomix-development/documentation)
-![Open Issues](https://img.shields.io/github/issues/bloomix-development/documentation)
-![Pull Requests](https://img.shields.io/github/issues-pr/bloomix-development/documentation)
-![License](https://img.shields.io/github/license/bloomix-development/documentation)
+[![Discord](https://img.shields.io/discord/1381511507271090278?style=flat-square&label=Support%20Server&logo=discord&color=5865F2)](https://discord.gg/GpthFH5uA9)![Forks](https://img.shields.io/github/forks/bloomix-development/documentation?style=flat-square)![Stars](https://img.shields.io/github/stars/bloomix-development/documentation?style=flat-square)![Version](https://img.shields.io/badge/version-1.0.0-blue?style=flat-square)![Last Commit](https://img.shields.io/github/last-commit/bloomix-development/documentation?style=flat-square)![Open Issues](https://img.shields.io/github/issues/bloomix-development/documentation?style=flat-square)![Pull Requests](https://img.shields.io/github/issues-pr/bloomix-development/documentation?style=flat-square)![License](https://img.shields.io/github/license/bloomix-development/documentation?style=flat-square)
 
 Welcome to the official documentation for our website builder.  
 Here you’ll find guides on using the platform, tips for customization, and contribution guidelines for developers.
