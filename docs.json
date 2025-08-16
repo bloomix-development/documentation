@@ -3,78 +3,55 @@
   "theme": "mint",
   "name": "Mint Starter Kit",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#00c896",
+    "light": "#00c896",
+    "dark": "#00c896"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
+
       {
         "tab": "Guides",
         "groups": [
           {
             "group": "Guides",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "index"
             ]
           },
           {
             "group": "Customization",
             "pages": [
-              "customization/settings",
-              "customization/navigation"
+
             ]
           },
           {
             "group": "Writing Content",
             "pages": [
-              "customization/markdown",
-              "customization/code",
-              "customization/images",
-              "customization/reusable-snippets"
+
             ]
           }
         ]
       }
     ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    "global": {}
   },
   "logo": {
-    "light": "/assets/bloomix.svg",
-    "dark": "/assets/bloomix.svg"
+    "light": "/assets/Bloomix_-_White.svg",
+    "dark": "/assets/Bloomix_-_White.svg"
   },
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Report an Issue",
+        "href": "https://github.com/bloomix-development/documentation/issues"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Back to Bloomix",
+      "href": "https://bloomix.dev"
     }
   },
   "contextual": {
@@ -91,9 +68,8 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "website": "https://bloomix.dev",
+      "github": "https://github.com/bloomix-development/documentation/issues"
     }
   }
 }
