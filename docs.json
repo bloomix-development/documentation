@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
+  "theme": "almond",
   "name": "Bloomix Documentation",
   "colors": {
     "primary": "#00c896",
@@ -13,7 +13,12 @@
 
       {
         "tab": "Guides",
-        "groups": [
+          "groups": [
+          { "group": "Overview",
+            "pages": [
+              "overview/faq"
+            ]
+          },
           {
             "group": "Guides",
             "pages": [
