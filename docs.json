@@ -34,11 +34,18 @@
           {
             "group": "Writing Content",
             "pages": [
-
+              "standards"
             ]
           }
         ]
-      }
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Types",
+            "pages": []
+        ]
     ],
     "global": {}
   },
