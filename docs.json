@@ -33,7 +33,14 @@
             ]
           }
         ]
-      }
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Types",
+            "pages": []
+        ]
     ],
     "global": {}
   },
