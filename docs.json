@@ -8,13 +8,17 @@
     "dark": "#00c896"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/assets/Bloomix_-_White.svg",
+    "dark": "/assets/Bloomix_-_White.svg"
+  },
   "navigation": {
     "tabs": [
-
       {
         "tab": "Guides",
-          "groups": [
-          { "group": "Overview",
+        "groups": [
+          {
+            "group": "Overview",
             "pages": [
               "overview/faq"
             ]
@@ -27,9 +31,7 @@
           },
           {
             "group": "Customization",
-            "pages": [
-
-            ]
+            "pages": []
           },
           {
             "group": "Writing Content",
@@ -45,13 +47,11 @@
           {
             "group": "Types",
             "pages": []
+          }
         ]
+      }
     ],
     "global": {}
-  },
-  "logo": {
-    "light": "/assets/Bloomix_-_White.svg",
-    "dark": "/assets/Bloomix_-_White.svg"
   },
   "navbar": {
     "links": [
@@ -68,15 +68,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
