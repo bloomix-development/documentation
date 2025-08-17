@@ -91,7 +91,7 @@ import { VerifyPasswordHash } from './Utils/PasswordUtils';
 	},
 	async handler(req, res) {
 		const user = await db.findUser(req.params.username);
-		const passwordHash = crypto.creatHash('sha256').update(...);
+		const passwordHash = crypto.createHash('sha256').update(...);
 		if (!user || user.passwordHash !== passwordHash) {
 			return res.status(401).send('Invalid credentials');
 		}
