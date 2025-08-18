@@ -65,6 +65,7 @@ Routes should **only call helpers**, never touch the database directly!
 ```ts
 // Good
 import { VerifyPasswordHash } from './Utils/PasswordUtils';
+import { GetUserByUsername } from './Utils/UserUtils';
 
 {
 	method: 'POST',
@@ -74,7 +75,7 @@ import { VerifyPasswordHash } from './Utils/PasswordUtils';
 		password: 'string',
 	},
 	async handler(req, res) {
-		const user = await db.findUser(req.params.username);
+		const user = await GetUserByUsername(req.params.username);
 		if (!user || !VerifyPasswordHash(req.params.password, user.passwordHash)) {
 			return res.status(401).send('Invalid credentials');
 		}
