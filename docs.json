@@ -20,13 +20,14 @@
           {
             "group": "Overview",
             "pages": [
+              "index",
               "overview/faq"
             ]
           },
           {
             "group": "Guides",
             "pages": [
-              "index"
+
             ]
           },
           {
