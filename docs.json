@@ -40,16 +40,11 @@
               "writingContent/standards",
               "writingContent/commits"
             ]
-          }
-        ]
-      },
-      {
-        "tab": "Reference",
-        "groups": [
+          },
           {
-            "group": "Types",
+            "group": "Reference",
             "pages": [
-              "reference/types/index",
+              "reference/types/types",
               "reference/types/concepts"
             ]
           }
