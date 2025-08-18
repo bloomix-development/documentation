@@ -162,9 +162,9 @@ function FetchIPs() {
 - **Classes**: Use `PascalCase` for class names, functions, and methods
 - **Files**: Use `PascalCase` for file names, e.g. `PasswordUtils.ts`
 
-Names should also be descriptive and meaningful. Avoid abbreviations unless they are well-known (e.g. `URL`, `API`, `DB`).
-`gUByID()` -> `GetUserById()`
-`calcTotPrice()` -> `CalculateTotalPrice()`
+Names should also be descriptive and meaningful. Avoid abbreviations unless they are well-known (e.g. `URL`, `API`, `DB`). <br/>
+`gUByID()` -> `GetUserById()` <br/>
+`calcTotPrice()` -> `CalculateTotalPrice()` <br/>
 `checkPass()` -> `VerifyPasswordHash()`
 
 ---

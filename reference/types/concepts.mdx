@@ -1,0 +1,126 @@
+---
+title: Core Concepts
+---
+
+This page is designed only for developer onboarding - it has little to no use for frontend or user-facing developers.
+All the types below define the shape of data and conventions used internally.
+**The vast majority of information here will be useless for you.**
+
+---
+
+## JSON Primitives
+We decided on only a few set primitives to be included in JSON typings.
+These are your common primitives in every language (minus `undefined` which is not a valid JSON type).
+```ts
+export type JSONPrimitive = string | number | boolean | null;
+```
+
+From here we can build up a more recursive and general JSON type.
+```ts
+export type JSONValue = JSONPrimitive | JSONValue[] | { [key: string]: JSONValue };
+```
+
+We could stop here normally as this can describe any valid JSON object, but we try to go a little bit further in our implementations.
+
+The first of which here is to represent any JSON *object*, not just values.
+Effectively all this means is that the root **must be an object** but we don't care about the rest of the structure.
+```ts
+export type JSONObject = { [key: string]: JSONValue };
+```
+And finally from there we have string representations of the above types, again only for internal purposes.
+```ts
+export type JSONPrimitiveStrings = 'string' | 'number' | 'boolean' | 'object' | 'array' | 'null';
+```
+
+---
+
+## Endpoints
+Endpoints are the core of every API to ever exist, but for that matter we wanted to put a lot of emphasis on flexibility and extensibility.
+This is why we have a very simple yet powerful endpoint type.
+
+This actually comes in several parts but we will review them separately first.
+
+### Endpoint Methods
+We only allow a few set ways to interact with the API.
+Paths are of course part of the battle but the methods are the most important part.
+```ts
+export type EndpointMethod = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
+```
+For most parts of the API we only use `GET`, `POST`, and `DELETE` but we do allow for the others to be used as well.
+We included a little cheat sheet below for how these methods are typically used:
+
+| Method   | Description                                                   | Example                           |
+|----------|---------------------------------------------------------------|-----------------------------------|
+| `GET`    | Retrieve data from the server                                 | Fetch user profile                |
+| `POST`   | Create new data on the server                                 | Create a new website              |
+| `DELETE` | Remove data from the server                                   | Delete a user account             |
+| `PUT`    | Update existing data on the server (replaces entire resource) | Update the *entire* user profile  |
+| `PATCH`  | Partially update existing data on the server                  | Update *only specific* parts      |
+
+### Endpoint Parameters
+Endpoints can have parameters that are used to pass data to the server.
+We also use these for sanity checks for your convenience in the case you typed something wrong.
+```ts
+export type EndpointParameters = { [key: string]: JSONPrimitiveStrings };
+```
+Please also note that this is a "flat" structure, meaning that it does not support nested objects or arrays.
+For any nested data we must handle that separately *per endpoint*.
+
+### Endpoint Queries
+Much like the parameters, queries are used to filter out data from the server.
+The big difference however is that
+1) Queries do not have any type checking - That is, everything is a string.
+2) Queries are only applicable to `GET` requests.
+```ts
+export type EndpointQueries = string[];
+```
+
+### Endpoint Responses
+Responses are the data that the server sends back to the client.
+This is the final step before we can put it all together.
+Note that this is a free-form shape, meaning that you can return any valid JSON object.
+The only requirement here is that `status` must be a `number` and defaults to `200` if not specified.
+```ts
+export type IEndpointReturn = {
+	status? : number; // HTTP status code, defaults to 200
+	[key: string]: JSONValue; // The actual data returned
+};
+```
+
+### Endpoint Type
+Finally we can put it all together into a single endpoint type.
+This is the type that you will see in most of the API code.
+```ts
+import { Request, Response } from 'express';
+
+export interface IEndpoint<TReturn extends JSONObject | Response | void = IEndpointReturn> {
+	method: EndpointMethod; // The HTTP method for this endpoint
+	route: string; // The path for this endpoint, e.g. '/users/:id'
+	params?: EndpointParameters; // Parameters that must be provided in the request
+	queries?: EndpointQueries; // Optional queries that can be used to filter data
+	handler(req: Request, res: Response): Promise<TReturn>; // The function that handles the request
+}
+
+// example
+export default {
+	method: 'POST',
+	route: '/users',
+	params: {
+		// Type checking is done automatically at runtime
+		username: 'string',
+		password: 'string'
+	},
+	handler: async (req, res) => {
+		const { username, password } = req.body;
+
+		// Perform your logic here, e.g. create a user
+		const newUser = await CreateUser(username, password);
+
+		return {
+			status: 201,
+			user: newUser
+		};
+	}
+} as IEndpoint;
+
+```
