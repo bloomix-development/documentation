@@ -20,10 +20,10 @@ This makes testing and debugging easier:
 
 ```ts
 // Good
-const user = db.findUser(id) ?? null;
+const user = await db.findUser(id) ?? null;
 
 // Bad
-const user = db.findUser(id); // could return undefined
+const user = await db.findUser(id); // could return undefined
 ```
 
 ---
