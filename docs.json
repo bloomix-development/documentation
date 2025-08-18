@@ -48,7 +48,10 @@
         "groups": [
           {
             "group": "Types",
-            "pages": []
+            "pages": [
+              "reference/types/index",
+              "reference/types/concepts"
+            ]
           }
         ]
       }
