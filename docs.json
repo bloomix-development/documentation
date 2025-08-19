@@ -46,7 +46,7 @@
             "pages": [
               "reference/types/types",
               "reference/types/concepts",
-              "reference/builder"
+              "reference/types/builder"
             ]
           }
         ]
