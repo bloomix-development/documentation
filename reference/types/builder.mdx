@@ -1,0 +1,207 @@
+---
+title: Builder Types
+icon: diagram-project
+---
+
+This section documents the typings and data structures used by the website builder system.
+
+The website builder organizes pages into a tree of **nodes**, where each node describes a distinct part of the page.
+A node may represent a text block, image, button, or even a layout container that holds other nodes.
+
+This structure allows websites to be defined as a hierarchy of small, reusable components.
+Each node stores its own **data**, optional **styling**, and a **parent ID** to maintain the tree structure.
+Together these nodes describe the entire page layout in a consistent format and can be serialized, persisted, and rendered later.
+
+---
+
+## Website & Page Records
+Each website is given a unique internal ID and contains a list of pages.
+These pages are the root of every node tree, and technically you could argue that actually the website itself is a node, but for simplicity we treat it separately.
+```ts
+export interface Website {
+	id: number; // ID of the page, use this for interacting with the API
+	name: string;
+	url: string; // https://{name}.bloomix.dev
+}
+```
+
+The page objects are very similar as you can see below:
+
+```ts
+export interface Page {
+	id: number; // Page ID, used for API interactions
+	websiteId: number; // ID of the website this page belongs to
+	path: string; // Path of the page, e.g. "/about", "/contact"
+}
+```
+
+---
+
+## Node Types
+All nodes are categorized by their **type**, represented by the `WebNodeType` enum.
+```ts
+export enum WebNodeType {
+	CONTAINER = 0,
+	TEXT = 1,
+	IMAGE = 2,
+	BUTTON = 3,
+	VIDEO = 4
+}
+```
+
+This ensures every node has a clear, unambiguous purpose:
+- **CONTAINER**: Holds other nodes, forming the layout structure
+- **TEXT**: Represents a block of text content
+- **IMAGE**: Embeds an image with size and alt text
+- **BUTTON**: Interactive element (click, submit, link, etc.)
+- **VIDEO**: Embeds a video with optional poster image
+
+It should go without much saying that these types are designed to resemble HTML elements, making it easier to understand and work with the structure. <br/>
+Container: `<div>` <br/>
+Text: `<p>` or `<span>` <br/>
+Image: `<img>` <br/>
+etc.
+
+---
+
+## Base Nodes
+
+This is the very bare basic structure of every page on Bloomix.
+We won't get into the algorithms and theories here but all you need to know is that this builds a linked list tree structure - each layer can have multiple children, and each child can have its own children, and so on.
+
+In layman's terms: recursive node structure; many node = much complexity!
+
+```ts
+export type BaseNode<
+  TData extends JSONValue, // we'll cover these later!
+  TStyle = Record<string, string | Record<string, string>>
+> = {
+  id: number;                // Unique ID (insertion order)
+  parent_id: number | null;  // null for root within its page
+  page_id: number;           // Page.id that the node belongs to, allows for O(1) lookups
+
+  /**
+   * Order discrimination for same-level nodes.
+   * Higher numbers render later (on top).
+   * @default 0
+   */
+  z_order: number;
+
+  type: WebNodeType;         // Discriminator
+  data: TData;               // Node-specific payload
+  style: TStyle;             // CSS-like map (may be nested)
+
+  flags: {
+    /**
+     * Hide element without removing it.
+     * @default false
+     */
+    hidden?: boolean;
+
+    /**
+     * Prevent move/resize/delete in the UI.
+     * Data may still change; parent may still change.
+     * @default false
+     */
+    locked?: boolean;
+
+    /**
+     * Disable interaction (buttons/links/etc).
+     * Does not affect move/resize.
+     * @default false
+     */
+    disabled?: boolean;
+
+    /**
+     * Whether this node can have children.
+     * @default true
+     */
+    supports_children?: boolean;
+  }
+}
+```
+
+The comments above should be self-explanatory of what they do, but we'll cover them again briefly below.
+- `id`: Unique ID for the node, this is assigned for you, you have no control over its value
+- `parent_id`: ID of the parent node, or `null` if this is the root node of the page
+- `page_id`: Associated the node with a specific page, useful when multiple pages exist in the same website
+- `z_order`: Frankly this is a poorly named variable for lack of better terms. Internally this is used to differentiate loading order on the same level. This should be treated as a `y_discriminate` instead and will be changed in future releases.
+- `type`: The type of the node, see the `WebNodeType` enum above
+- `data`: The data payload for the node, this is a JSON value and will have a different structure depending on the node type
+- `style`: A CSS-like map of styles for the node, this can be only be nested 2 layers deep (e.g. `{"color": "red", ":hover": {"color": "blue"}}`)
+- `flags`: A set of flags that control the behavior of the node, such as visibility, interactivity, and whether it can have children.
+  - `hidden`: If true, the node will not be rendered but will still exist in the tree
+  - `locked`: If true, the node cannot be moved, resized, or deleted in the UI, but its data can still change
+  - `disabled`: If true, the node will not respond to interactions (e.g. buttons or links), but can still be moved or resized
+  - `supports_children`: If false, the node cannot have children, this is useful for leaf nodes like text or images
+
+---
+
+## Specialized Node Variants
+As stated above, there are several specialized node types that extend the base node structure.
+These types add specific data and styling relevant to their function, while still adhering to the base structure.
+
+### Container Node
+This node represents a `<div>` element in HTML, and is used to group other nodes together.
+Support for flex and grid layouts is planned for the future, but currently it is a simple container.
+```ts
+export type ContainerNode = BaseNode<{}> & { type: WebNodeType.CONTAINER };
+```
+
+### Text Node
+This node represents a block of text content, similar to a `<p>` or `<span>`
+At the moment it only supports single colors and font sizes, but more styling options are planned.
+```ts
+export type TextNode = BaseNode<{
+	text: string; // The text content of the node
+}> & { type: WebNodeType.TEXT };
+```
+
+### Image Node
+This node represents an image, similar to an `<img>` element.
+It includes the image URL, alt text, width, and height.
+```ts
+export type ImageNode = BaseNode<{
+	url: string; // URL of the image
+	alt: string; // Alt text for the image
+	width: number; // Width of the image in pixels
+	height: number; // Height of the image in pixels
+}> & { type: WebNodeType.IMAGE };
+```
+
+### Button Node
+This node represents a button, similar to an `<button>` or `<a>` element.
+Currently, these are only visual elements and do not have any interactivity.
+```ts
+export type ButtonNode = BaseNode<{
+	text: string; // Text displayed on the button
+	action: string; // Action to perform when clicked (e.g. "submit", "link", etc.)
+}> & { type: WebNodeType.BUTTON };
+```
+
+### Video Node
+This node represents a video, similar to a `<video>` element.
+It includes the video URL, poster image, width, and height.
+```ts
+export type VideoNode = BaseNode<{
+	url: string; // URL of the video file
+	poster: string; // URL of the poster image
+	width: number; // Width of the video in pixels
+	height: number; // Height of the video in pixels
+}> & { type: WebNodeType.VIDEO };
+```
+
+---
+
+## The Union Type
+For convenience, all node types are bundled into a single union type:
+```ts
+export type WebNode =
+	| ContainerNode
+	| TextNode
+	| ImageNode
+	| ButtonNode
+	| VideoNode;
+```
+This makes it easy to work with collections of nodes while retaining type safety.
+TypeScript can narrow down which fields are available based on the node's `type`.
