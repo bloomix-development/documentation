@@ -45,7 +45,8 @@
             "group": "Reference",
             "pages": [
               "reference/types/types",
-              "reference/types/concepts"
+              "reference/types/concepts",
+              "reference/types/builders",
             ]
           }
         ]
