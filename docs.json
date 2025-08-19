@@ -7,10 +7,10 @@
     "light": "#00c896",
     "dark": "#00c896"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/assets/Favicon.svg",
   "logo": {
-    "light": "/assets/Bloomix_-_White.svg",
-    "dark": "/assets/Bloomix_-_White.svg"
+    "light": "/assets/BloomixLogo.svg",
+    "dark": "/assets/BloomixLogo.svg"
   },
   "navigation": {
     "tabs": [
