@@ -19,7 +19,7 @@ Each website is given a unique internal ID and contains a list of pages.
 These pages are the root of every node tree, and technically you could argue that actually the website itself is a node, but for simplicity we treat it separately.
 ```ts
 export interface Website {
-	id: number; // ID of the page, use this for intercting with the API
+	id: number; // ID of the page, use this for interacting with the API
 	name: string;
 	url: string; // https://{name}.bloomix.dev
 }
