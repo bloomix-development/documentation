@@ -35,17 +35,9 @@
             "pages": []
           },
           {
-            "group": "Contributing",
-            "pages": [
-              "writingContent/standards",
-              "writingContent/commits"
-            ]
-          },
-          {
             "group": "Reference",
             "pages": [
               "reference/types/types",
-              "reference/types/concepts",
               "reference/types/builder"
             ]
           }
